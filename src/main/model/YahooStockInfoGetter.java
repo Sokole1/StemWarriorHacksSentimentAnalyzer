@@ -72,7 +72,6 @@ public class YahooStockInfoGetter implements StockInfoGetter {
             return e.getLocalizedMessage();
         }
     }
-
 }
 
 

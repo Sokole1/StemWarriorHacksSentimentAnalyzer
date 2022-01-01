@@ -49,16 +49,17 @@ public class YahooNewsGetter implements NewsGetter {
     }
 
     private Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
+        final int MAX = 5;
         // extracting the reports array
         JSONArray reports = new JSONObject(rawNews)
                 .getJSONObject("finance")
                 .getJSONObject("result")
                 .getJSONArray("reports");
 
-        //report length is 100
-        Sentiment[] sentiments = new Sentiment[reports.length()];
+        // Capping the length of Sentiment[] to MAX
+        Sentiment[] sentiments = reports.length() <= MAX ? new Sentiment[reports.length()] : new Sentiment[MAX];
 
-        for (int i = 0; i < reports.length(); ++i) {
+        for (int i = 0; i < reports.length() && i < MAX; ++i) {
             JSONObject report = reports.getJSONObject(i);
             String heading = report.getString("title");
             String source = report.getString("summary");

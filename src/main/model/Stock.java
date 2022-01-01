@@ -7,7 +7,7 @@ public class Stock {
     private String ticker;
     private Double price;
     private Double percent;
-    private Double averageSentiment = null;
+    private Double averageSentiment;
     private Sentiment[] sentiments;
 
     public Stock(String name, String ticker, Double price, Double percent) {
@@ -16,6 +16,24 @@ public class Stock {
         this.price = price;
         this.percent = percent;
         this.averageSentiment = null;
+    }
+
+    // GETTERS
+    public Sentiment[] getSentiments() {
+        return sentiments;
+    }
+
+    public Double getAverageSentiment() {
+        return averageSentiment;
+    }
+
+    // SETTERS
+    public void setAverageSentiment(Double averageSentiment) {
+        this.averageSentiment = averageSentiment;
+    }
+
+    public void setSentiments(Sentiment[] sentiments) {
+        this.sentiments = sentiments;
     }
 
     @Override

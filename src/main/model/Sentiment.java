@@ -11,6 +11,7 @@ public class Sentiment {
         this.source = source;
     }
 
+    // GETTERS
     public String getHeading() {
         return this.heading;
     }
@@ -19,7 +20,16 @@ public class Sentiment {
         return this.source;
     }
 
-    // remove later for testing
+    public Double getSentimentScore() {
+        return sentimentScore;
+    }
+
+    // SETTERS
+    public void setSentimentScore(Double sentimentScore) {
+        this.sentimentScore = sentimentScore;
+    }
+
+    // TODO: remove later for testing
     public String displayHeadingAndSource() {
         return getHeading() + " : " + getSource();
     }
