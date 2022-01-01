@@ -1,5 +1,6 @@
 package main.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -13,42 +14,71 @@ import java.nio.file.Paths;
 import java.util.concurrent.TimeUnit;
 
 public class SymblSentimentGetter implements SentimentGetter {
+
+
     @Override
-    public Double getSentiment(String articleBody) {
+    public Double[] getSentiments(String[] articleBodies) {
+        // turn list of article bodies to list of convIDS, wait 6 seconds, turn into polarity, if message empty, return 0
+        String[] convIds = new String[articleBodies.length];
 
-        String status;
-        String[] Ids = getConvID(articleBody);
-        String jobId = Ids[1];
-        String convId = Ids[0];
-
-        while (true) {
-            status = getJobStatus(jobId);
-            if (status.equals("completed")) {
-                break;
-            } else {
-                try {
-                    TimeUnit.SECONDS.sleep(6);
-                    System.out.println("slept");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-            }
+        for (int i = 0; i < articleBodies.length; ++i) {
+            convIds[i] = getConvID(articleBodies[i])[0];
         }
 
-        return getPolarity(convId);
+        try {
+            TimeUnit.SECONDS.sleep(6);
+            System.out.println("slept");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Double[] polarities = new Double[convIds.length];
+
+        for (int i = 0; i < convIds.length; ++i) {
+            polarities[i] = getPolarity(convIds[i]);
+        }
+
+        return polarities;
     }
+//    public Double getSentiment(String articleBody) {
+//
+//        String status;
+//        String[] Ids = getConvID(articleBody);
+//        String jobId = Ids[1];
+//        String convId = Ids[0];
+//
+////        while (true) {
+////            status = getJobStatus(jobId);
+////            if (status.equals("completed")) {
+////                break;
+////            } else {
+////                try {
+////                    TimeUnit.SECONDS.sleep(5);
+////                    System.out.println("slept");
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+////
+////            }
+////        }
+//
+//        return getPolarity(convId);
+//    }
 
     // TODO: remove this function when testing not needed
     public static void main(String[] args) {
 
         SymblSentimentGetter symblSentimentGetter = new SymblSentimentGetter();
+        String[] articles = new String[]{"Stocks rose on Friday, finishing off a strong week that saw major indexes climb higher. Riskier equities outperformed blue chips, a trend that was commonplace during the early weeks of the recovery. On Friday, the Dow Jones Industrial Average gained 162 points, or 0.6%. The S&P 500 was up 0.7% and the Nasdaq Composite was up 0.6%. For the full week, the Dow was up 2.6%, the S&P 500 was up 3.3% and the Nasdaq gained 3.4%. Year-to-date, the DJIA crossed into positive territory this week, and is up 0.4%, the S&P is up 8.6%, and the Nasdaq is up 30.4%. Over the past 52 weeks, the Dow is up 8.5%, the S&P 500 is up 19.9%, and the Nasdaq is up 46.9%."};
 
+        Double[] sentiments = symblSentimentGetter.getSentiments(articles);
 
-        Double sentiment = symblSentimentGetter.getSentiment("Okay, so you're talking about that file, which I am sending you.");
+        //Double sentiment = symblSentimentGetter.getSentiment("Stocks rose on Friday, finishing off a strong week that saw major indexes climb higher. Riskier equities outperformed blue chips, a trend that was commonplace during the early weeks of the recovery. On Friday, the Dow Jones Industrial Average gained 162 points, or 0.6%. The S&P 500 was up 0.7% and the Nasdaq Composite was up 0.6%. For the full week, the Dow was up 2.6%, the S&P 500 was up 3.3% and the Nasdaq gained 3.4%. Year-to-date, the DJIA crossed into positive territory this week, and is up 0.4%, the S&P is up 8.6%, and the Nasdaq is up 30.4%. Over the past 52 weeks, the Dow is up 8.5%, the S&P 500 is up 19.9%, and the Nasdaq is up 46.9%.");
 
+        for (int i = 0; i < sentiments.length; ++i) {
+            System.out.println(sentiments[i]);
+        }
 
-        System.out.println(sentiment);
     }
 
     private String[] getConvID(String articleBody) {
@@ -118,13 +148,19 @@ public class SymblSentimentGetter implements SentimentGetter {
             e.printStackTrace();
         }
 
-        JSONObject r = new JSONObject(response.body()).getJSONArray("messages").getJSONObject(0).getJSONObject("sentiment");
-        Double polarity = r.getJSONObject("polarity").getDouble("score");
-        // String suggested = r.getString("suggested");
-        // return response.body();
-        // System.out.println(response.body());
-        // System.out.println(polarity);
-        return polarity;
+        JSONArray messageArray = new JSONObject(response.body()).getJSONArray("messages");
+
+        if (messageArray.length() == 0 || messageArray == null) {
+            return 0.0;
+        } else {
+            JSONObject r = new JSONObject(response.body()).getJSONArray("messages").getJSONObject(0).getJSONObject("sentiment");
+            Double polarity = r.getJSONObject("polarity").getDouble("score");
+            // String suggested = r.getString("suggested");
+            // return response.body();
+            // System.out.println(response.body());
+            // System.out.println(polarity);
+            return polarity;
+        }
     }
 
     private String getSymblApiKey() {
@@ -138,4 +174,6 @@ public class SymblSentimentGetter implements SentimentGetter {
             return e.getLocalizedMessage();
         }
     }
+
+
 }
