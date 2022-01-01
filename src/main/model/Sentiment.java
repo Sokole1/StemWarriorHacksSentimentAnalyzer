@@ -1,6 +1,7 @@
 package main.model;
 
 public class Sentiment {
+
     private String heading;
     private Double sentimentScore;
     private String source;
@@ -21,6 +22,15 @@ public class Sentiment {
     // remove later for testing
     public String displayHeadingAndSource() {
         return getHeading() + " : " + getSource();
+    }
+
+    @Override
+    public String toString() {
+        return "Sentiment{" +
+                "heading='" + heading + '\'' +
+                ", sentimentScore=" + sentimentScore +
+                ", source='" + source + '\'' +
+                '}';
     }
 
 }

@@ -1,12 +1,5 @@
 package main.model;
 
-//public class YahooNewsGetter implements NewsGetter {
-//    @Override
-//    public Sentiment[] getNewsSentiment(String ticker) {
-//        return new Sentiment[0];
-//    }
-// COMMENTED OUT FOR NOW, don't know how to use NewsGetter
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -16,16 +9,24 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class YahooNewsGetter {
+public class YahooNewsGetter implements NewsGetter {
+
+    @Override
+    public Sentiment[] getNewsSentiment(String ticker) {
+        return getNewsTurnIntoSentiments(getRawNews(ticker));
+    }
+
     public static void main(String[] args) {
-        String r = getRawNews("AAPL");
-        Sentiment[] arr = getNewsTurnIntoSentiments(r);
+
+        YahooNewsGetter yahooNewsGetter = new YahooNewsGetter();
+//        String r = getRawNews("AAPL");
+        Sentiment[] arr = yahooNewsGetter.getNewsSentiment("AAPL");
 
         //change index from 0-99 for testing
         System.out.println(arr[50].displayHeadingAndSource());
     }
 
-    public static String getRawNews(String ticker) {
+    private String getRawNews(String ticker) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://yfapi.net/ws/insights/v1/finance/insights?symbol=" + ticker))
                 .header("x-api-key", "zQ0HGB2hvf84gDCfuvw5X3KoVrIVlX1b43lIaEgy")
@@ -35,16 +36,14 @@ public class YahooNewsGetter {
         try {
             response = HttpClient.newHttpClient()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
 
         return response.body();
     }
 
-    public static Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
+    private Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
         // extracting the reports array
         JSONArray reports = new JSONObject(rawNews)
                 .getJSONObject("finance")
@@ -63,6 +62,7 @@ public class YahooNewsGetter {
 
         return sentiments;
     }
+
 }
 
 
