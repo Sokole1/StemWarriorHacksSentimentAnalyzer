@@ -25,10 +25,10 @@ public class YahooNewsGetter implements NewsGetter {
         YahooNewsGetter yahooNewsGetter = new YahooNewsGetter();
         yahooNewsGetter.getYahooApiKey();
 ////        String r = getRawNews("AAPL");
-//        Sentiment[] arr = yahooNewsGetter.getNewsSentiment("AAPL");
+        Sentiment[] arr = yahooNewsGetter.getNewsSentiment("AAPL");
 //
 //        //change index from 0-99 for testing
-//        System.out.println(arr[50].displayHeadingAndSource());
+        System.out.println(arr[50].displayHeadingAndSource());
     }
 
     private String getRawNews(String ticker) {

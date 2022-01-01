@@ -1,8 +1,78 @@
 package main.model;
 
+
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class YahooStockInfoGetter implements StockInfoGetter {
     @Override
     public Stock getStock(String ticker) {
-        return null;
+
+        return rawToStock(getRawStock(ticker));
     }
+
+    // TODO: remove this function when testing not needed
+    public static void main(String[] args) {
+
+        YahooStockInfoGetter yahooStockGetter = new YahooStockInfoGetter();
+        yahooStockGetter.getYahooApiKey();
+
+        Stock stock = yahooStockGetter.getStock("AAPL");
+
+        System.out.println(stock.toString());
+    }
+
+    private String getRawStock(String ticker) {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://yfapi.net/v6/finance/quote?symbols=" + ticker))
+                .header("x-api-key", getYahooApiKey())
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = null;
+        try {
+            response = HttpClient.newHttpClient()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return response.body();
+    }
+
+    private Stock rawToStock(String rawStock) {
+
+        JSONObject stock = new JSONObject(rawStock).getJSONObject("quoteResponse").getJSONArray("result").getJSONObject(0);
+
+
+        Stock stockOb = new Stock(stock.getString("displayName"),
+                stock.getString("symbol"),
+                stock.getDouble("regularMarketPrice"),
+                stock.getDouble("regularMarketChangePercent"));
+
+
+        return stockOb;
+    }
+
+    private String getYahooApiKey() {
+        File file = new File("config.json");
+        try {
+            String content = new String(Files.readAllBytes(Paths.get(file.toURI())));
+            JSONObject json = new JSONObject(content);
+            return json.getString("yahooApiKey");
+        } catch (IOException e) {
+            e.printStackTrace();
+            return e.getLocalizedMessage();
+        }
+    }
+
 }
+
+
