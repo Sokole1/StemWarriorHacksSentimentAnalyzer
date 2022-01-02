@@ -3,7 +3,6 @@ package main.ui;
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: Make look good, dynamic values, add source display
 public class SearchPageError {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -16,11 +15,11 @@ public class SearchPageError {
     Header header = new Header();
     JLabel stockTicker, errorMessage;
 
-    public SearchPageError() {
+    SearchPageError(String ticker) {
         panel.setPreferredSize(new Dimension(WIDTH + 5, HEIGHT));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        initializeLabels();
+        initializeLabels(ticker);
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTH;
@@ -54,9 +53,11 @@ public class SearchPageError {
         frame.setVisible(true);
     }
 
-    private void initializeLabels() {
+    private void initializeLabels(String ticker) {
 
-        stockTicker = new JLabel("Could not find: " + "TSLA", SwingConstants.CENTER);
+        stockTicker = new JLabel("Could not find: " + ticker, SwingConstants.CENTER);
+        // this is where ticker from home page is if not found
+
         stockTicker.setFont(new Font("Raleway", Font.BOLD, 48));
         errorMessage = new JLabel("Check Your Spelling and Try Again", SwingConstants.CENTER);
         errorMessage.setFont(new Font("Raleway", Font.PLAIN, 48));
@@ -65,9 +66,6 @@ public class SearchPageError {
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
         buttonHome.setFocusable(false);
-    }
 
-    public static void main(String[] args) {
-        new SearchPageError();
     }
 }
