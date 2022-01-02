@@ -1,6 +1,7 @@
 package main.model;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -15,19 +16,7 @@ import java.nio.file.Paths;
 public class YahooStockInfoGetter implements StockInfoGetter {
     @Override
     public Stock getStock(String ticker) {
-
         return rawToStock(getRawStock(ticker));
-    }
-
-    // TODO: remove this function when testing not needed
-    public static void main(String[] args) {
-
-        YahooStockInfoGetter yahooStockGetter = new YahooStockInfoGetter();
-        yahooStockGetter.getYahooApiKey();
-
-        Stock stock = yahooStockGetter.getStock("AAPL");
-
-        System.out.println(stock.toString());
     }
 
     private String getRawStock(String ticker) {
@@ -43,20 +32,20 @@ public class YahooStockInfoGetter implements StockInfoGetter {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
         return response.body();
     }
 
     private Stock rawToStock(String rawStock) {
-
-        JSONObject stock = new JSONObject(rawStock).getJSONObject("quoteResponse").getJSONArray("result").getJSONObject(0);
-
+        JSONArray result = new JSONObject(rawStock).getJSONObject("quoteResponse").getJSONArray("result");
+        if (result.isEmpty()) {
+            return null;
+        }
+        JSONObject stock = result.getJSONObject(0);
 
         Stock stockOb = new Stock(stock.getString("displayName"),
                 stock.getString("symbol"),
                 stock.getDouble("regularMarketPrice"),
                 stock.getDouble("regularMarketChangePercent"));
-
 
         return stockOb;
     }

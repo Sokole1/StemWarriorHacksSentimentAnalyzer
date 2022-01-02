@@ -1,5 +1,7 @@
 package main.model;
 
+import java.util.Arrays;
+
 public class Handler {
 
     private StockInfoGetter stockInfoGetter;
@@ -22,10 +24,19 @@ public class Handler {
     // EFFECTS: produce Stock from given ticker
     public Stock setUpStock(String ticker) {
         Stock stock = stockInfoGetter.getStock(ticker);
+        if (stock == null) {
+            return null;
+        }
         stock.setSentiments(newsGetter.getNewsSentiment(ticker));
 
-        for (Sentiment sentiment : stock.getSentiments()) {
-            sentiment.setSentimentScore(sentimentGetter.getSentiment(sentiment.getSource()));
+        Sentiment[] sentiments = stock.getSentiments();
+
+        String[] texts = Arrays.stream(sentiments).map(s -> s.getSource()).toArray(String[]::new);
+        Double[] scores = sentimentGetter.getSentiments(texts);
+        if (sentiments.length > 0) {
+            for (int i = 0; i < sentiments.length; i++) {
+                sentiments[i].setSentimentScore(scores[i]);
+            }
         }
         stock.setAverageSentiment(calculateAverageSentiment(stock));
         return stock;

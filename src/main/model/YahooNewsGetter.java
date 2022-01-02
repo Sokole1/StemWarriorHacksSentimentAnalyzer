@@ -19,18 +19,6 @@ public class YahooNewsGetter implements NewsGetter {
         return getNewsTurnIntoSentiments(getRawNews(ticker));
     }
 
-    // TODO: remove this function when testing not needed
-    public static void main(String[] args) {
-
-        YahooNewsGetter yahooNewsGetter = new YahooNewsGetter();
-        yahooNewsGetter.getYahooApiKey();
-////        String r = getRawNews("AAPL");
-        Sentiment[] arr = yahooNewsGetter.getNewsSentiment("AAPL");
-//
-//        //change index from 0-99 for testing
-        System.out.println(arr[50].displayHeadingAndSource());
-    }
-
     private String getRawNews(String ticker) {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://yfapi.net/ws/insights/v1/finance/insights?symbol=" + ticker))
@@ -49,7 +37,7 @@ public class YahooNewsGetter implements NewsGetter {
     }
 
     private Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
-        final int MAX = 5;
+        final int MAX = 2;
         // extracting the reports array
         JSONArray reports = new JSONObject(rawNews)
                 .getJSONObject("finance")
