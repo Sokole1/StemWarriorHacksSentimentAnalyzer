@@ -42,7 +42,11 @@ public class HandlerTest {
         Assertions.assertEquals(0.17, stock.getAverageSentiment());
     }
 
-    // TODO: test what happens when one of the apis return null or empty
+    @Test
+    public void testGetFavouriteStocksEmpty() {
+
+    }
+
     @Test
     public void testSetUpStock() {
         final Double[] STUB_SENTIMENTS = new Double[]{0.25, 0.50};

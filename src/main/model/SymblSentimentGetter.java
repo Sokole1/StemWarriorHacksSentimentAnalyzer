@@ -63,6 +63,7 @@ public class SymblSentimentGetter implements SentimentGetter {
             e.printStackTrace();
         }
 
+        System.out.println(response.body());
         String convID = new JSONObject(response.body()).getString("conversationId");
         String jobID = new JSONObject(response.body()).getString("jobId");
         String[] ids = new String[]{convID, jobID};
