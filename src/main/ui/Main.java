@@ -1,17 +1,16 @@
 package main.ui;
 
-import main.model.NewsGetter;
-import main.model.Sentiment;
-import main.model.YahooNewsGetter;
+import main.model.*;
 
 public class Main {
 
     public static void main(String[] args) {
         NewsGetter newsGetter = new YahooNewsGetter();
+        StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+        SentimentGetter sentimentGetter = new SymblSentimentGetter();
 
-        Sentiment[] sentiments = newsGetter.getNewsSentiment("AAPL");
-        for (Sentiment s : sentiments) {
-            System.out.println(s);
-        }
+        Handler handler = new Handler(stockInfoGetter, newsGetter, sentimentGetter);
+        Stock myStock = handler.setUpStock("AAPL");
+        System.out.println(myStock);
     }
 }

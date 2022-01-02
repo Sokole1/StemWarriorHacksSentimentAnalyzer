@@ -12,8 +12,8 @@ import java.util.Arrays;
 
 public class HandlerTest {
 
-    Handler handler;
-    Stock stock;
+    private Handler handler;
+    private Stock stock;
 
     @BeforeEach
     public void runBefore() {
@@ -45,28 +45,24 @@ public class HandlerTest {
     // TODO: test what happens when one of the apis return null or empty
     @Test
     public void testSetUpStock() {
-        final double STUB_SENTIMENT = 0.50;
+        final Double[] STUB_SENTIMENTS = new Double[]{0.25, 0.50};
 
         Stock dummyStock = new Stock("APPLE", "AAPL", 153.52, 1.03);
 
         StockInfoGetter stockInfoGetter = new StubStockInfoGetter(dummyStock);
-        SentimentGetter sentimentGetter = new StubSentimentGetter(STUB_SENTIMENT);
+        SentimentGetter sentimentGetter = new StubSentimentGetter(STUB_SENTIMENTS);
         JSONArray stubReport = new JSONArray("[{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
                 "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
                 "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}]");
 
         NewsGetter newsGetter = new StubNewsGetter(stubReport);
         Handler myHandler = new Handler(stockInfoGetter, newsGetter, sentimentGetter);
-        dummyStock.setAverageSentiment(0.50);
+        dummyStock.setAverageSentiment(0.16);
         dummyStock.setSentiments(newsGetter.getNewsSentiment("AAPL"));
 
-        for (Sentiment sentiment : dummyStock.getSentiments()) {
-            sentiment.setSentimentScore(STUB_SENTIMENT);
+        for (int i = 0; i < STUB_SENTIMENTS.length; i++) {
+            dummyStock.getSentiments()[i].setSentimentScore(STUB_SENTIMENTS[i]);
         }
-
         Assertions.assertEquals(dummyStock, myHandler.setUpStock("AAPL"));
     }
 
@@ -89,38 +85,21 @@ public class HandlerTest {
         }
 
         @Test
-        public void testGetNewsSentimentLengthFour() {
+        public void testGetNewsSentimentLengthTwo() {
             JSONArray stubReport = new JSONArray("[{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
                     "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}]");
             StubNewsGetter stubNewsGetter = new StubNewsGetter(stubReport);
-            Assertions.assertEquals(4, stubNewsGetter.getNewsSentiment("sDf").length);
+            Assertions.assertEquals(2, stubNewsGetter.getNewsSentiment("sDf").length);
         }
 
         @Test
-        public void testGetNewsSentimentLengthFive() {
+        public void testGetNewsSentimentLengthThree() {
             JSONArray stubReport = new JSONArray("[{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
                     "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
                     "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}]");
             StubNewsGetter stubNewsGetter = new StubNewsGetter(stubReport);
-            Assertions.assertEquals(5, stubNewsGetter.getNewsSentiment("sDf").length);
+            Assertions.assertEquals(2, stubNewsGetter.getNewsSentiment("sDf").length);
         }
-
-        @Test
-        public void testGetNewsSentimentLengthOverFive() {
-            JSONArray stubReport = new JSONArray("[{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
-                    "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}]");
-            StubNewsGetter stubNewsGetter = new StubNewsGetter(stubReport);
-            Assertions.assertEquals(5, stubNewsGetter.getNewsSentiment("sDf").length);
-        }
-
     }
 
     private class StubStockInfoGetter implements StockInfoGetter {
@@ -139,19 +118,19 @@ public class HandlerTest {
 
     private class StubSentimentGetter implements SentimentGetter {
 
-        private Double stubReturn;
+        private Double[] stubReturns;
 
-        public StubSentimentGetter(Double stubReturn) {
-            this.stubReturn = stubReturn;
+        public StubSentimentGetter(Double[] stubReturn) {
+            this.stubReturns = stubReturn;
         }
 
         public StubSentimentGetter() {
-            this.stubReturn = 0.0;
+            this.stubReturns = new Double[]{0.0};
         }
 
         @Override
-        public Double getSentiment(String articleBody) {
-            return stubReturn;
+        public Double[] getSentiments(String[] articleBodies) {
+            return stubReturns;
         }
     }
 
@@ -172,7 +151,7 @@ public class HandlerTest {
         }
 
         private Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
-            final int MAX = 5;
+            final int MAX = 2;
 
             Sentiment[] sentiments = stubReports.length() <= MAX ? new Sentiment[stubReports.length()] : new Sentiment[MAX];
 

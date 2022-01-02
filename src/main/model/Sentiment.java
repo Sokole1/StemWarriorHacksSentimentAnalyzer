@@ -29,11 +29,6 @@ public class Sentiment {
         this.sentimentScore = sentimentScore;
     }
 
-    // TODO: remove later for testing
-    public String displayHeadingAndSource() {
-        return getHeading() + " : " + getSource();
-    }
-
     @Override
     public String toString() {
         return "Sentiment{" +
