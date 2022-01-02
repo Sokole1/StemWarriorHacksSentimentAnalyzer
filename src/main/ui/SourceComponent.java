@@ -12,11 +12,14 @@ public class SourceComponent extends JPanel {
     final int HEIGHT = (int) screenSize.getHeight();
 
     SourceComponent() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+//        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.WEST;
+
+        gbc.insets = new Insets(20, 1, 20, 1);
 
         initializeLabels();
 
@@ -34,7 +37,8 @@ public class SourceComponent extends JPanel {
 
         gbc.gridx++;
         this.add(readMore, gbc);
-
+        this.setBackground(new Color(251, 247, 247));
+        this.setVisible(true);
     }
 
     private void initializeLabels() {

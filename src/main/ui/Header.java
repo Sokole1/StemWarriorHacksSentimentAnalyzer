@@ -67,6 +67,9 @@ public class Header extends JPanel {
         buttonSearch.setFocusable(false);
 
         buttonHome = new JButton(new ImageIcon("assets/home.png"));
+        buttonHome.addActionListener(e -> {
+            System.out.println("HELLO");
+        });
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
         buttonHome.setFocusable(false);

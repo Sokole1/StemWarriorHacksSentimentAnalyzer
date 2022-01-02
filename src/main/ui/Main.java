@@ -20,6 +20,6 @@ public class Main {
 //        Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
 //        System.out.println(handler.setUpStock("GME"));
 
-        StockDisplay stockDisplay = new StockDisplay();
+        StockPage stockDisplay = new StockPage();
     }
 }
