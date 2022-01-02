@@ -10,6 +10,10 @@ public class Header extends JFrame {
     JTextField textField;
     JLabel title;
 
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    final int WIDTH = (int) screenSize.getWidth();
+    final int HEIGHT = (int) screenSize.getHeight();
+
     Header() {
 
         title = new JLabel();
@@ -39,7 +43,9 @@ public class Header extends JFrame {
         });
 
         buttonHome = new JButton(new ImageIcon("E:\\StemWarriorHacksSentimentAnalyzer\\assets\\home.png"));
-        buttonHome.setPreferredSize(new Dimension(75,75));
+        //buttonHome.setPreferredSize(new Dimension(75,20));
+        buttonHome.setSize(45,55);
+        buttonHome.setBackground(new Color(227, 227, 227));
 
         JPanel searchPanel = new JPanel();
         searchPanel.add(textField);
@@ -48,7 +54,7 @@ public class Header extends JFrame {
 
         JPanel headerPanel = new JPanel();
         BorderLayout layout = new BorderLayout();
-        layout.setHgap(15);
+        layout.setHgap(35);
         headerPanel.setLayout(layout);
         headerPanel.setBackground(new Color(32, 33, 36));
 
@@ -61,7 +67,7 @@ public class Header extends JFrame {
         this.setTitle("JFrame title goes here"); // sets title of frame
         this.setDefaultCloseOperation(this.EXIT_ON_CLOSE); // exit when hitting x
         //this.setSize(1440, 1024); // sets x and y dimension of frame
-        this.setPreferredSize(new Dimension(1640, 160));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
         // this.setLayout(null); // change layout maanger
         this.setVisible(true); // make frame visible
