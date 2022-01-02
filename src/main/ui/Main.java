@@ -13,8 +13,7 @@ public class Main {
         SentimentGetter sentimentGetter = new SymblSentimentGetter();
         Handler handler = new Handler(stockInfoGetter, newsGetter, sentimentGetter);
         System.out.println(Arrays.toString(handler.initializeFavouriteStocks()));
-        Header header = new Header();
-       // Stock myStock = handler.setUpStock("AAPL");
-       // System.out.println(myStock);
+//        Stock myStock = handler.setUpStock("AAPL");
+//        System.out.println(myStock);
     }
 }

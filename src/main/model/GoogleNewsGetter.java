@@ -33,7 +33,6 @@ public class GoogleNewsGetter implements NewsGetter {
         catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
-
         return response.body();
     }
 
@@ -48,6 +47,7 @@ public class GoogleNewsGetter implements NewsGetter {
             String heading = article.getString("title");
             String source = article.getString("description");
             sentiments[i] = new Sentiment(heading, source);
+            sentiments[i].setUrl(article.getString("url"));
         }
 
         return sentiments;
