@@ -1,81 +1,92 @@
 package main.ui;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class Header extends JFrame {
+public class Header extends JPanel {
 
     JButton buttonSearch;
     JButton buttonHome;
     JTextField textField;
     JLabel title;
+    JPanel searchPanel;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
     Header() {
-
-        title = new JLabel();
-        title.setText("Stock Sentiment Analyzer");
-        title.setFont(new Font("Raleway", Font.PLAIN, 54));
-        title.setForeground(new Color(51,148,35));
-
-
-
-
-
-
-        textField = new JTextField();
-        textField.setPreferredSize(new Dimension(800, 75));
-        textField.setFont(new Font("Consolas", Font.PLAIN, 35));
-        textField.setForeground(Color.black);
-        textField.setBackground(new Color(185, 185, 185));
-        textField.setText("stock ticker");
-        textField.setFont(new Font("Raleway", Font.PLAIN, 60));
-
-        buttonSearch = new JButton(new ImageIcon("E:\\StemWarriorHacksSentimentAnalyzer\\assets\\buttonSearch.png"));
-        buttonSearch.setPreferredSize(new Dimension(75,75));
-        buttonSearch.addActionListener(e -> {
-            if (e.getSource() == buttonSearch) {
-                System.out.println("Welcome " + textField.getText());
-            }
-        });
-
-        buttonHome = new JButton(new ImageIcon("E:\\StemWarriorHacksSentimentAnalyzer\\assets\\home.png"));
-        //buttonHome.setPreferredSize(new Dimension(75,20));
-        buttonHome.setSize(45,55);
-        buttonHome.setBackground(new Color(227, 227, 227));
-
-        JPanel searchPanel = new JPanel();
-        searchPanel.add(textField);
-        searchPanel.add(buttonSearch);
-        searchPanel.setBackground(new Color(32, 33, 36));
-
-        JPanel headerPanel = new JPanel();
-        BorderLayout layout = new BorderLayout();
-        layout.setHgap(35);
-        headerPanel.setLayout(layout);
-        headerPanel.setBackground(new Color(32, 33, 36));
-
-        headerPanel.add(title, BorderLayout.WEST);
-        headerPanel.add(searchPanel, BorderLayout.CENTER);
-        headerPanel.add(buttonHome, BorderLayout.EAST);
-
-        this.add(headerPanel);
-
-        this.setTitle("JFrame title goes here"); // sets title of frame
-        this.setDefaultCloseOperation(this.EXIT_ON_CLOSE); // exit when hitting x
-        //this.setSize(1440, 1024); // sets x and y dimension of frame
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
-        // this.setLayout(null); // change layout maanger
-        this.setVisible(true); // make frame visible
-        this.pack(); // adjusts to size of things inside (add all before packing)
+        this.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weighty = 1.0;
+        initializeContent();
 
-        //ImageIcon image1 = new ImageIcon("src/main/resources/img.png"); // create image icon top left
-        //this.setIconImage(image1.getImage()); // change icon of frame
-        this.getContentPane().setBackground(new Color(32, 33, 36)); // change colour of background
+        gbc.gridx = 0;
+        gbc.weightx = 0.1;
+        this.add(title, gbc);
+
+        gbc.gridx = 1;
+        gbc.weightx = 0.8;
+        setUpSearchPanel();
+        this.add(searchPanel, gbc);
+
+        gbc.gridx = 2;
+        gbc.weightx = 0.1;
+        this.add(buttonHome, gbc);
+
+        this.setBackground(new Color(0, 0, 0)); // change colour of background
+        this.setVisible(true); // make frame visible
     }
 
+    private void initializeContent() {
+        title = new JLabel();
+        title.setText("Stock Sentiment Analyzer");
+        title.setFont(new Font("Raleway", Font.BOLD, 24));
+        title.setForeground(new Color(51,148,35));
+        title.setBorder(new EmptyBorder(10, 50, 10, 10));
+
+        textField = new JTextField();
+        textField.setForeground(Color.black);
+//        textField.setPreferredSize(new Dimension(400, 14));
+        textField.setText("stock ticker");
+        textField.setFont(new Font("Raleway", Font.PLAIN, 24));
+
+        ImageIcon searchIcon = new ImageIcon("assets/buttonSearch.png");
+        buttonSearch = new JButton(searchIcon);
+//        buttonSearch.setRolloverEnabled(true);
+//        buttonSearch.setRolloverIcon(new ImageIcon("assets/home.png"));
+//        buttonSearch.setPreferredSize(new Dimension(searchIcon.getIconWidth(), searchIcon.getIconHeight()));
+        buttonSearch.addActionListener(e -> {
+            System.out.println("Welcome " + textField.getText());
+        });
+        buttonSearch.setBorder(BorderFactory.createEmptyBorder());
+        buttonSearch.setContentAreaFilled(false);
+        buttonSearch.setFocusable(false);
+
+        buttonHome = new JButton(new ImageIcon("assets/home.png"));
+        buttonHome.setBorder(BorderFactory.createEmptyBorder());
+        buttonHome.setContentAreaFilled(false);
+        buttonHome.setFocusable(false);
+    }
+
+    private void setUpSearchPanel() {
+        searchPanel = new JPanel();
+        searchPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc2 = new GridBagConstraints();
+        gbc2.fill = GridBagConstraints.HORIZONTAL;
+
+        gbc2.anchor = GridBagConstraints.WEST;
+        gbc2.gridx = 0;
+
+        gbc2.weighty = 1.0;
+        gbc2.weightx = 1.0;
+        searchPanel.add(textField, gbc2);
+        gbc2.gridx = 1;
+        gbc2.weightx = 0.1;
+        searchPanel.add(buttonSearch, gbc2);
+        searchPanel.setBackground(Color.BLACK);
+    }
 }
