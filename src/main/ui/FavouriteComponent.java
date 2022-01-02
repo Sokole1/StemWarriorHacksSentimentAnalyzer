@@ -7,7 +7,7 @@ import java.awt.*;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 
-public class FavouriteComponent {
+public class FavouriteComponent extends JPanel {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
@@ -25,10 +25,10 @@ public class FavouriteComponent {
 //button.setBorderPainted(false);
 
     FavouriteComponent(Stock stock) {
-        JPanel panel = new JPanel();
+
 
         GridBagLayout layout = new GridBagLayout();
-        panel.setLayout(layout);
+        this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
 
         initialize(stock);
@@ -37,12 +37,13 @@ public class FavouriteComponent {
         gbc.weightx = 0.7;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        panel.add(info, gbc);
+        this.add(info, gbc);
 
         gbc.weightx = 0.3;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        panel.add(remove, gbc);
+        gbc.insets = new Insets(0, 10, 0, 10);
+        this.add(remove, gbc);
 
 
         gbc.weightx = 1.0;
@@ -50,18 +51,19 @@ public class FavouriteComponent {
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridwidth = 2;
-        panel.add(genSentPanel, gbc);
+        this.add(genSentPanel, gbc);
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //panel.setBorder(new EmptyBorder(20,20,20,20));
 
-        JFrame frame = new JFrame();
-
-
-        frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-        frame.setPreferredSize(new Dimension(WIDTH/2, WIDTH/2));
+//        JFrame frame = new JFrame();
+//
+//
+//        frame.add(panelFavCom);
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.pack();
+//        frame.setVisible(true);
+//        frame.setPreferredSize(new Dimension(WIDTH/2, WIDTH/2));
 
 
     }
