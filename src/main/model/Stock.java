@@ -47,4 +47,20 @@ public class Stock {
                 ", sentiments=" + Arrays.toString(sentiments) +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getTicker() {
+        return ticker;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Double getPercent() {
+        return percent;
+    }
 }

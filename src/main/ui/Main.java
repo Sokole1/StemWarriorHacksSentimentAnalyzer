@@ -22,5 +22,8 @@ public class Main {
 //        Header header = new Header();
 
         StockDisplay stockDisplay = new StockDisplay();
+
+        Stock stock = new Stock("Apple", "AAPL", 123.21, 91.1);
+        FavouriteComponent favouriteComponent =  new FavouriteComponent(stock);
     }
 }
