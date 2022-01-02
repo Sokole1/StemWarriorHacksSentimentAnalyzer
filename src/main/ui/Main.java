@@ -3,6 +3,7 @@ package main.ui;
 import main.model.*;
 
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class Main {
 
@@ -10,20 +11,23 @@ public class Main {
 //        NewsGetter newsGetter = new YahooNewsGetter();
         StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
         SentimentGetter sentimentGetter = new SymblSentimentGetter();
+<<<<<<<<< Temporary merge branch 1
+        Handler handler = new Handler(stockInfoGetter, newsGetter, sentimentGetter);
+        System.out.println(Arrays.toString(handler.initializeFavouriteStocks()));
+        Header header = new Header();
+       // Stock myStock = handler.setUpStock("AAPL");
+       // System.out.println(myStock);
+=========
 //        Handler handler = new Handler(stockInfoGetter, newsGetter, sentimentGetter);
 //        System.out.println(Arrays.toString(handler.initializeFavouriteStocks()));
 //        Stock myStock = handler.setUpStock("AAPL");
 //        System.out.println(myStock);
+
 //        StockDisplay stockDisplay = new StockDisplay();
         NewsGetter googleNewsGetter = new GoogleNewsGetter();
-//        System.out.println(Arrays.toString(googleNewsGetter.getNewsSentiment("TSLA")));
+        System.out.println(Arrays.toString(googleNewsGetter.getNewsSentiment("TSLA")));
 //        Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
 //        System.out.println(handler.setUpStock("GME"));
-//        Header header = new Header();
-
-        StockDisplay stockDisplay = new StockDisplay();
-
-        Stock stock = new Stock("Apple", "AAPL", 123.21, 91.1);
-        FavouriteComponent favouriteComponent =  new FavouriteComponent(stock);
+>>>>>>>>> Temporary merge branch 2
     }
 }
