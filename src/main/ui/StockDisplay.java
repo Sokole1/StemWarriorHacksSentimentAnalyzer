@@ -12,23 +12,31 @@ public class StockDisplay {
 
     JFrame frame = new JFrame();
     JPanel panel = new JPanel();
+    Header header = new Header();
     JLabel stockName, stockTicker, stockPrice, stockPercent, stockSentiment, favourite, sources;
     JLabel circleImage;
 
     public StockDisplay() {
-        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        panel.setPreferredSize(new Dimension(WIDTH + 5, HEIGHT));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         initializeLabels();
 
         gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTH;
+
         gbc.weightx = 1.0;
         gbc.weighty = 1.0;
 
-        gbc.insets = new Insets(10, 10, 10, 10);
-
         gbc.gridx = 0;
         gbc.gridy = 0;
+        gbc.gridwidth = 3;
+        panel.add(header, gbc);
+
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        gbc.gridwidth = 1;
+        gbc.gridy = 1;
         panel.add(stockName, gbc);
 
         gbc.gridx = 1;
@@ -38,14 +46,14 @@ public class StockDisplay {
         panel.add(favourite, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         panel.add(stockPrice, gbc);
 
         gbc.gridx = 1;
         panel.add(stockPercent, gbc);
 
         gbc.gridx = 0;
-        gbc.gridy = 2;
+        gbc.gridy = 3;
         panel.add(circleImage, gbc);
 
         gbc.gridx = 1;
@@ -54,6 +62,7 @@ public class StockDisplay {
         gbc.gridx = 2;
         panel.add(sources, gbc);
 
+        panel.setBackground(Color.GREEN);
         frame.add(panel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
