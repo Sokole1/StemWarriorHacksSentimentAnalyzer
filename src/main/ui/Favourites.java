@@ -24,14 +24,6 @@ public class Favourites extends JPanel {
 
         JScrollPane favsScrollArea = new JScrollPane(this);
         favsScrollArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-
-        JFrame frame = new JFrame();
-        frame.add(favsScrollArea);
-        frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        frame.setVisible(true);
     }
 
 }
