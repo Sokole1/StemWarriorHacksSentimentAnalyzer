@@ -1,5 +1,8 @@
 package main.model;
 
+import main.persistence.FavouritesWriter;
+
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 
 public class Handler {
@@ -16,9 +19,17 @@ public class Handler {
     }
 
     // MODIFIES: this
-    // EFFECTS: initializes favouriteStocks with user's saved stocks
-    public void setUpFavouriteStocks() {
+    // EFFECTS: initializes basic stock information for user's saved tickers
+    public Stock[] initializeFavouriteStocks() throws FileNotFoundException {
+        FavouritesWriter favouritesWriter = new FavouritesWriter("data/favourites.json");
+        String[] tickers = favouritesWriter.getFavourites();
+        favouriteStocks = Arrays.stream(tickers).map(this::getBasicStockInfo).toArray(Stock[]::new);
+        return favouriteStocks;
+    }
 
+    // EFFECTS: return stock with name, ticker, price, percent. averageSentiment and sentiments are null
+    public Stock getBasicStockInfo(String ticker) {
+        return stockInfoGetter.getStock(ticker);
     }
 
     // EFFECTS: produce Stock from given ticker
