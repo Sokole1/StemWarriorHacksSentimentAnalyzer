@@ -58,7 +58,7 @@ public class Header extends JPanel {
         buttonSearch = new JButton(searchIcon);
 //        buttonSearch.setRolloverEnabled(true);
 //        buttonSearch.setRolloverIcon(new ImageIcon("assets/home.png"));
-//        buttonSearch.setPreferredSize(new Dimension(searchIcon.getIconWidth(), searchIcon.getIconHeight()));
+        buttonSearch.setPreferredSize(new Dimension(50, 50));
         buttonSearch.addActionListener(e -> {
             System.out.println("Welcome " + textField.getText());
         });
