@@ -6,10 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class Homepage {
+public class Homepage extends JFrame {
 
     HomeTop homeTop = new HomeTop(this);
-    JFrame frame;
     GridBagConstraints gbc;
     JPanel home;
     Favourites favourites;
@@ -46,14 +45,9 @@ public class Homepage {
         gbc.insets = new Insets(0,0,20,5);
         home.add(favScrollArea, gbc);
 
-        frame = new JFrame();
-        frame.add(home);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
-    public void getRidOf() {
-        frame.dispose();
+        this.add(home);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
     }
 }

@@ -16,6 +16,5 @@ public class Main {
         Stock stock = new Stock("AA", "SDF", 1.2, 1.23);
         Stock[] stocks = new Stock[]{stock, stock};
         new Homepage(stocks);
-//        Loading loading = new Loading();
     }
 }

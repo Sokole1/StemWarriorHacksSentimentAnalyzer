@@ -1,5 +1,6 @@
 package main.model;
 
+import main.ui.Loading;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -11,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.concurrent.TimeUnit;
 
 public class SymblSentimentGetter implements SentimentGetter {
 
@@ -24,12 +24,12 @@ public class SymblSentimentGetter implements SentimentGetter {
         for (int i = 0; i < articleBodies.length; ++i) {
             convIds[i] = getConvID(articleBodies[i])[0];
         }
-
-        try {
-            TimeUnit.SECONDS.sleep(7);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        new Loading();
+//        try {
+//            Thread.sleep(7000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
         Double[] polarities = new Double[convIds.length];
 
