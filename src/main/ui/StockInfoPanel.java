@@ -92,6 +92,7 @@ public class StockInfoPanel extends JPanel {
         favourite.setRolloverEnabled(true);
         favourite.setRolloverIcon(new ImageIcon("assets/light_star.png"));
         favourite.addActionListener(e -> {
+            favourite.setEnabled(false);
             try {
                 FavouritesWriter favouritesWriter = new FavouritesWriter("data/favourites.json");
                 favouritesWriter.addToFavourites(stock.getTicker());

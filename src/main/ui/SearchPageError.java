@@ -1,7 +1,10 @@
 package main.ui;
 
+import main.model.*;
+
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class SearchPageError extends JFrame {
 
@@ -60,5 +63,19 @@ public class SearchPageError extends JFrame {
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
         buttonHome.setFocusable(false);
+        buttonHome.addActionListener(e -> {
+            StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+            SentimentGetter sentimentGetter = new SymblSentimentGetter();
+            NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            buttonHome.setEnabled(false);
+            Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
+            try {
+                new Homepage(handler.initializeFavouriteStocks());
+                this.dispose();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+                this.dispose();
+            }
+        });
     }
 }
