@@ -1,11 +1,11 @@
 package main.ui;
 
-import main.model.Sentiment;
+import main.model.Stock;
 
 import javax.swing.*;
 import java.awt.*;
 
-// TODO: Make look good, dynamic values, add source display
+// This is the main stock page JFrame
 public class StockPage {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -16,8 +16,8 @@ public class StockPage {
     JPanel panel = new JPanel();
     Header header = new Header();
 
-    public StockPage() {
-        panel.setPreferredSize(new Dimension(WIDTH + 5, HEIGHT));
+    public StockPage(Stock stock) {
+        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -34,22 +34,18 @@ public class StockPage {
         gbc.gridy++;
         gbc.weighty = 0.5;
         gbc.insets = new Insets(0,50,0,50);
-        panel.add(new StockInfoPanel(), gbc);
+        panel.add(new StockInfoPanel(stock), gbc);
 
-        Sentiment sentiment = new Sentiment("sdfs", "dsfds");
-        Sentiment[] sentiments = new Sentiment[]{sentiment, sentiment, sentiment, sentiment,
-                sentiment, sentiment, sentiment, sentiment};
-
-        SourcesPanel sourcesPanel = new SourcesPanel(sentiments);
+        SourcesPanel sourcesPanel = new SourcesPanel(stock.getSentiments());
         JScrollPane scrollPane = new JScrollPane(sourcesPanel);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setFocusable(false);
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.weighty = 1.0;
         gbc.gridy++;
-        gbc.insets = new Insets(0,50,0,50);
+        gbc.insets = new Insets(0,50,50,50);
         panel.add(scrollPane, gbc);
 
         panel.setBackground(Color.BLACK);

@@ -1,50 +1,73 @@
 package main.ui;
 
-import javax.swing.*;
-import java.awt.*;
+import main.model.Sentiment;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.net.URL;
+
+// This is what is made for each sentiment to display in StockPage
 public class SourceComponent extends JPanel {
 
-    JLabel headline, sentiment, score, readMore;
+    JLabel headline, sentiment, score;
+    JButton readMore;
+    JPanel textPanel;
 
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    final int WIDTH = (int) screenSize.getWidth();
-    final int HEIGHT = (int) screenSize.getHeight();
+    SourceComponent(Sentiment sent) {
+        initializeLabels(sent);
 
-    SourceComponent() {
-//        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        this.setAlignmentY(Component.CENTER_ALIGNMENT);
+        this.add(textPanel);
+        this.add(readMore);
 
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.WEST;
-
-        gbc.insets = new Insets(20, 1, 20, 1);
-
-        initializeLabels();
-
-        gbc.weighty = 1.0;
-        gbc.gridy = 0;
-
-        gbc.gridx = 0;
-        this.add(headline, gbc);
-
-        gbc.gridx++;
-        this.add(sentiment, gbc);
-
-        gbc.gridx++;
-        this.add(score, gbc);
-
-        gbc.gridx++;
-        this.add(readMore, gbc);
         this.setBackground(new Color(251, 247, 247));
         this.setVisible(true);
     }
 
-    private void initializeLabels() {
-        headline = new JLabel("Some news headline...");
+    private void initializeLabels(Sentiment sent) {
+        headline = new JLabel(sent.getHeading());
         sentiment = new JLabel("Sentiment:");
-        score = new JLabel("0.1");
-        readMore = new JLabel("Read More", new ImageIcon("assets/open.png"), JLabel.LEFT);
+
+        Double sentScore = sent.getSentimentScore();
+        score = new JLabel(String.valueOf(sentScore));
+        if (sentScore > 0) {
+            score.setForeground(Color.GREEN);
+        } else if (sentScore < 0) {
+            score.setForeground(Color.RED);
+        }
+
+        headline.setFont(new Font("Open Sans", Font.PLAIN, 20));
+        sentiment.setFont(new Font("Open Sans", Font.BOLD, 20));
+        score.setFont(new Font("Open Sans", Font.PLAIN, 20));
+
+        textPanel = new JPanel();
+        textPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 50));
+        textPanel.add(headline);
+        textPanel.add(sentiment);
+        textPanel.add(score);
+        textPanel.setBackground(new Color(251, 247, 247));
+
+        readMore = new JButton("Read More", new ImageIcon("assets/open.png"));
+        readMore.setHorizontalAlignment(SwingConstants.RIGHT);
+        readMore.setBorder(new EmptyBorder(0,0,0,30));
+        readMore.setContentAreaFilled(false);
+        readMore.setFocusable(false);
+        readMore.setRolloverEnabled(true);
+        readMore.setRolloverIcon(new ImageIcon("assets/light_open.png"));
+
+        readMore.addActionListener(a -> {
+            String myUrl = sent.getUrl();
+            int ind = myUrl.indexOf("cid=");
+            if (ind > 0) {
+                myUrl = myUrl.substring(0, ind);
+            }
+            try {
+                Desktop.getDesktop().browse(new URL(myUrl).toURI());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

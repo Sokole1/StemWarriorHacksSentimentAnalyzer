@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+// This is the panel that contains the dynamic number of sentiments
 public class SourcesPanel extends JPanel {
 
     SourcesPanel(Sentiment[] sentiments) {
@@ -13,7 +14,7 @@ public class SourcesPanel extends JPanel {
         this.setLayout(boxLayout);
         this.setBorder(new EmptyBorder(5,50,0,50));
         for (Sentiment sentiment : sentiments) {
-            this.add(new SourceComponent());
+            this.add(new SourceComponent(sentiment));
             this.add(Box.createRigidArea(new Dimension(0, 5)));
         }
 
