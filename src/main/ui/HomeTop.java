@@ -16,7 +16,7 @@ public class HomeTop extends JPanel {
     final int HEIGHT = (int) screenSize.getHeight();
 
     HomeTop() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        this.setPreferredSize(new Dimension(WIDTH, HEIGHT/4));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -53,7 +53,7 @@ public class HomeTop extends JPanel {
         textField.setText("stock ticker");
         textField.setFont(new Font("Raleway", Font.PLAIN, 24));
 
-        ImageIcon searchIcon = new ImageIcon("assets/buttonSearch.png");
+        ImageIcon searchIcon = new ImageIcon("assets/search.png");
         buttonSearch = new JButton(searchIcon);
 
         buttonSearch.addActionListener(e -> {

@@ -1,10 +1,12 @@
 package main.ui;
 
 import main.model.Stock;
+import main.persistence.FavouritesWriter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.font.TextAttribute;
+import java.io.FileNotFoundException;
 import java.util.Map;
 
 public class FavouriteComponent extends JPanel {
@@ -42,7 +44,7 @@ public class FavouriteComponent extends JPanel {
         gbc.weightx = 0.3;
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.insets = new Insets(0, 10, 0, 10);
+        gbc.insets = new Insets(0, 10, 0, 5);
         this.add(remove, gbc);
 
 
@@ -102,6 +104,12 @@ public class FavouriteComponent extends JPanel {
         genSent.setBorderPainted(false);
         genSent.setFocusable(false);
 
+
+        genSent.addActionListener(e -> {
+            System.out.println("Generate Sentiment");
+        });
+
+
         genSentPanel = new JPanel();
         genSentPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         genSentPanel.add(genSent);
@@ -111,6 +119,16 @@ public class FavouriteComponent extends JPanel {
         remove.setBorder(BorderFactory.createEmptyBorder());
         remove.setContentAreaFilled(false);
         remove.setFocusable(false);
+
+        remove.addActionListener(e -> {
+            try {
+                FavouritesWriter favouritesWriter = new FavouritesWriter("data/favourites.json");
+                favouritesWriter.removeFromFavourites(tickerName);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        });
+
 
     }
 
