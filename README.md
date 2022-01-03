@@ -17,6 +17,8 @@ We then use Symbl.ai's sentiment analysis API to get the polarity score of each 
 
 (Due to the fact that Symbl.ai only allows for two concurrent jobs with a free account, only the two most recent news articles are used. Upgrade your plan to get even more!)
 
+Everything was written in Java and the UI was made using Java Swing
+
 ## Installation/Quick Start Guide
 
 You will need to the API key's for the following:
