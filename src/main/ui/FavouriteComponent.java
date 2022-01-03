@@ -1,6 +1,6 @@
 package main.ui;
 
-import main.model.Stock;
+import main.model.*;
 import main.persistence.FavouritesWriter;
 
 import javax.swing.*;
@@ -21,14 +21,14 @@ public class FavouriteComponent extends JPanel {
     JButton genSent;
     JButton remove;
     JPanel genSentPanel;
+    Homepage home;
 
 //    button.setOpaque(false);
 //button.setContentAreaFilled(false);
 //button.setBorderPainted(false);
 
-    FavouriteComponent(Stock stock) {
-
-
+    FavouriteComponent(Stock stock, Homepage home) {
+        this.home = home;
         GridBagLayout layout = new GridBagLayout();
         this.setLayout(layout);
         GridBagConstraints gbc = new GridBagConstraints();
@@ -81,9 +81,13 @@ public class FavouriteComponent extends JPanel {
         ticker.setFont(new Font("Open Sans", Font.BOLD, 36));
 
         priceAndPercent = new JLabel();
-        priceAndPercent.setText(price + "(" + percent + "%)");
+        priceAndPercent.setText("$" + price + " (" + percent + "%)");
         priceAndPercent.setFont(new Font("Open Sans", Font.PLAIN, 36));
-        priceAndPercent.setForeground(new Color(51, 148, 35));
+        if (stock.getPercent() > 0) {
+            priceAndPercent.setForeground(new Color(51, 148, 35));
+        } else if (stock.getPercent() < 0) {
+            priceAndPercent.setForeground(Color.RED);
+        }
 
         info = new JPanel();
         info.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
@@ -104,9 +108,15 @@ public class FavouriteComponent extends JPanel {
         genSent.setBorderPainted(false);
         genSent.setFocusable(false);
 
-
         genSent.addActionListener(e -> {
-            System.out.println("Generate Sentiment");
+            StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+            SentimentGetter sentimentGetter = new SymblSentimentGetter();
+            NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
+            Stock newStock = handler.setUpRestOfStock(stock);
+            System.out.println(newStock);
+            home.getRidOf();
+            new StockPage(newStock);
         });
 
 

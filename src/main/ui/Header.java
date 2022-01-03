@@ -1,8 +1,11 @@
 package main.ui;
 
+import main.model.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.FileNotFoundException;
 
 public class Header extends JPanel {
 
@@ -11,12 +14,14 @@ public class Header extends JPanel {
     JTextField textField;
     JLabel title;
     JPanel searchPanel;
+    JFrame rootFrame;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
-    Header() {
+    Header(JFrame rootFrame) {
+        this.rootFrame = rootFrame;
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -70,7 +75,17 @@ public class Header extends JPanel {
         buttonHome.setRolloverEnabled(true);
         buttonHome.setRolloverIcon(new ImageIcon("assets/homeHovered.png"));
         buttonHome.addActionListener(e -> {
-            System.out.println("HELLO");
+            StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+            SentimentGetter sentimentGetter = new SymblSentimentGetter();
+            NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
+            try {
+                new Homepage(handler.initializeFavouriteStocks());
+                rootFrame.dispose();
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+                rootFrame.dispose();
+            }
         });
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
