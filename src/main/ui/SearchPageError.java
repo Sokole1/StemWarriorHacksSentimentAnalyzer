@@ -3,16 +3,15 @@ package main.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class SearchPageError {
+public class SearchPageError extends JFrame {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
     JButton buttonHome;
-    JFrame frame = new JFrame();
     JPanel panel = new JPanel();
-    Header header = new Header();
+    Header header = new Header(this);
     JLabel stockTicker, errorMessage;
 
     SearchPageError(String ticker) {
@@ -42,10 +41,10 @@ public class SearchPageError {
         panel.add(buttonHome, gbc);
 
         panel.setBackground(Color.GRAY);
-        frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        this.add(panel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
     }
 
     private void initializeLabels(String ticker) {
@@ -61,6 +60,5 @@ public class SearchPageError {
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
         buttonHome.setFocusable(false);
-
     }
 }

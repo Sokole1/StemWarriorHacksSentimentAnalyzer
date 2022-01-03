@@ -1,5 +1,7 @@
 package main.ui;
 
+import main.model.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -10,12 +12,14 @@ public class HomeTop extends JPanel {
     JTextField textField;
     JLabel title;
     JPanel searchPanel;
+    Homepage homepage;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
-    HomeTop() {
+    HomeTop(Homepage homepage) {
+        this.homepage = homepage;
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT / 4));
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -57,7 +61,18 @@ public class HomeTop extends JPanel {
         buttonSearch = new JButton(searchIcon);
 
         buttonSearch.addActionListener(e -> {
-            System.out.println("Welcome " + textField.getText());
+            StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+            SentimentGetter sentimentGetter = new SymblSentimentGetter();
+            NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
+            Stock stock = handler.setUpStock(textField.getText());
+            if (stock == null) {
+                homepage.getRidOf();
+                new SearchPageError(textField.getText());
+            } else {
+                homepage.getRidOf();
+                new StockPage(stock);
+            }
         });
         buttonSearch.setBorder(BorderFactory.createEmptyBorder());
         buttonSearch.setContentAreaFilled(false);

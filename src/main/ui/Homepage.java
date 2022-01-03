@@ -8,7 +8,8 @@ import java.awt.*;
 
 public class Homepage {
 
-    HomeTop homeTop = new HomeTop();
+    HomeTop homeTop = new HomeTop(this);
+    JFrame frame;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
@@ -27,7 +28,7 @@ public class Homepage {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        Favourites favourites = new Favourites(stocks);
+        Favourites favourites = new Favourites(stocks, this);
 
         JScrollPane favScrollArea = new JScrollPane(favourites);
         favScrollArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -40,10 +41,14 @@ public class Homepage {
         gbc.insets = new Insets(0,0,20,5);
         home.add(favScrollArea, gbc);
 
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.add(home);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+    }
+
+    public void getRidOf() {
+        frame.dispose();
     }
 }

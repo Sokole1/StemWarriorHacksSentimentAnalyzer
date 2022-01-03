@@ -6,15 +6,14 @@ import javax.swing.*;
 import java.awt.*;
 
 // This is the main stock page JFrame
-public class StockPage {
+public class StockPage extends JFrame {
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
-    JFrame frame = new JFrame();
     JPanel panel = new JPanel();
-    Header header = new Header();
+    Header header = new Header(this);
 
     public StockPage(Stock stock) {
         panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
@@ -48,9 +47,9 @@ public class StockPage {
         panel.add(scrollPane, gbc);
 
         panel.setBackground(Color.BLACK);
-        frame.add(panel);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
+        this.add(panel);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.pack();
+        this.setVisible(true);
     }
 }

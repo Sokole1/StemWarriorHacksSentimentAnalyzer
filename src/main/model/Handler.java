@@ -32,8 +32,25 @@ public class Handler {
         return stockInfoGetter.getStock(ticker);
     }
 
+    public Stock setUpRestOfStock(Stock stock) {
+        stock.setSentiments(newsGetter.getNewsSentiment(stock.getTicker()));
+
+        Sentiment[] sentiments = stock.getSentiments();
+
+        String[] texts = Arrays.stream(sentiments).map(s -> s.getSource()).toArray(String[]::new);
+        Double[] scores = sentimentGetter.getSentiments(texts);
+        if (sentiments.length > 0) {
+            for (int i = 0; i < sentiments.length; i++) {
+                sentiments[i].setSentimentScore(scores[i]);
+            }
+        }
+        stock.setAverageSentiment(calculateAverageSentiment(stock));
+        return stock;
+    }
+
     // EFFECTS: produce Stock from given ticker
     public Stock setUpStock(String ticker) {
+        ticker = ticker.replace(" ", "");
         Stock stock = stockInfoGetter.getStock(ticker);
         if (stock == null) {
             return null;
