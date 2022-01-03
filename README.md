@@ -15,7 +15,7 @@ The user enters a stock ticker which we use to get stock information using [Yaho
 
 We then use Symbl.ai's sentiment analysis API to get the polarity score of each news article. The scores are averaged and shown to the user along with the stock information.
 
-(Due to the fact that Symbl.ai only allows for two concurrent jobs with a free account, only the two most recent news articles are used. Upgrade your plan to get even more!)
+(Due to Symbl.ai only allowing for two concurrent jobs with a free account, only the two most recent news articles are used for the sentiment analysis. Upgrade your plan to get even more!)
 
 Everything was written in Java and the UI was made using Java Swing
 
