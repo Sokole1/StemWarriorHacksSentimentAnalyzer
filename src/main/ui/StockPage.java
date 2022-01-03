@@ -27,7 +27,6 @@ public class StockPage {
         gbc.weightx = 1.0;
         gbc.weighty = 0.2;
         gbc.gridx = 0;
-
         gbc.gridy = 0;
         panel.add(header, gbc);
 

@@ -90,6 +90,7 @@ public class SymblSentimentGetter implements SentimentGetter {
         JSONArray messageArray = new JSONObject(response.body()).getJSONArray("messages");
 
         if (messageArray.length() == 0 || messageArray == null) {
+            System.out.println("DEFAULTING VALUE TO 0.0");
             return 0.0;
         } else {
             JSONObject r = new JSONObject(response.body()).getJSONArray("messages").getJSONObject(0).getJSONObject("sentiment");

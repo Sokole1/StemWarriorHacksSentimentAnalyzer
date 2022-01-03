@@ -16,33 +16,28 @@ public class SearchPageError {
     JLabel stockTicker, errorMessage;
 
     SearchPageError(String ticker) {
-        panel.setPreferredSize(new Dimension(WIDTH + 5, HEIGHT));
+        panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         panel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         initializeLabels(ticker);
 
-        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.NORTH;
 
         gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-
+        gbc.weighty = 0.25;
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3;
         panel.add(header, gbc);
 
         gbc.insets = new Insets(10, 10, 10, 10);
-
-        gbc.gridx = 1;
+        gbc.weighty = 0.8;
         gbc.gridy = 1;
         panel.add(stockTicker, gbc);
 
-        gbc.gridx = 1;
         gbc.gridy = 2;
         panel.add(errorMessage, gbc);
 
-        gbc.gridx = 1;
         gbc.gridy = 3;
         panel.add(buttonHome, gbc);
 
