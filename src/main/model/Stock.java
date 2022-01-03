@@ -22,7 +22,18 @@ public class Stock {
     public Sentiment[] getSentiments() {
         return sentiments;
     }
-
+    public String getName() {
+        return name;
+    }
+    public String getTicker() {
+        return ticker;
+    }
+    public Double getPrice() {
+        return price;
+    }
+    public Double getPercent() {
+        return percent;
+    }
     public Double getAverageSentiment() {
         return averageSentiment;
     }

@@ -26,6 +26,10 @@ public class Sentiment {
         return sentimentScore;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     // SETTERS
     public void setSentimentScore(Double sentimentScore) {
         this.sentimentScore = sentimentScore;

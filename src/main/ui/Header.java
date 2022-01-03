@@ -43,7 +43,7 @@ public class Header extends JPanel {
 
     private void initializeContent() {
         title = new JLabel();
-        title.setText("Stock Sentiment Analyzer");
+        title.setText("Stock Stalk");
         title.setFont(new Font("Raleway", Font.BOLD, 24));
         title.setForeground(new Color(51,148,35));
         title.setBorder(new EmptyBorder(10, 50, 10, 10));
@@ -54,11 +54,11 @@ public class Header extends JPanel {
         textField.setText("stock ticker");
         textField.setFont(new Font("Raleway", Font.PLAIN, 24));
 
-        ImageIcon searchIcon = new ImageIcon("assets/buttonSearch.png");
+        ImageIcon searchIcon = new ImageIcon("assets/search.png");
         buttonSearch = new JButton(searchIcon);
-//        buttonSearch.setRolloverEnabled(true);
-//        buttonSearch.setRolloverIcon(new ImageIcon("assets/home.png"));
-//        buttonSearch.setPreferredSize(new Dimension(searchIcon.getIconWidth(), searchIcon.getIconHeight()));
+        buttonSearch.setRolloverEnabled(true);
+        buttonSearch.setRolloverIcon(new ImageIcon("assets/searchHovered.png"));
+        buttonSearch.setPreferredSize(new Dimension(50, 50));
         buttonSearch.addActionListener(e -> {
             System.out.println("Welcome " + textField.getText());
         });
@@ -67,6 +67,11 @@ public class Header extends JPanel {
         buttonSearch.setFocusable(false);
 
         buttonHome = new JButton(new ImageIcon("assets/home.png"));
+        buttonHome.setRolloverEnabled(true);
+        buttonHome.setRolloverIcon(new ImageIcon("assets/homeHovered.png"));
+        buttonHome.addActionListener(e -> {
+            System.out.println("HELLO");
+        });
         buttonHome.setBorder(BorderFactory.createEmptyBorder());
         buttonHome.setContentAreaFilled(false);
         buttonHome.setFocusable(false);
@@ -74,6 +79,8 @@ public class Header extends JPanel {
 
     private void setUpSearchPanel() {
         searchPanel = new JPanel();
+        searchPanel.setPreferredSize(new Dimension(WIDTH, HEIGHT + 10));
+        searchPanel.setSize(new Dimension(WIDTH, HEIGHT + 10));
         searchPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc2 = new GridBagConstraints();
         gbc2.fill = GridBagConstraints.HORIZONTAL;
