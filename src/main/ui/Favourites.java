@@ -10,7 +10,6 @@ import java.awt.*;
 
 public class Favourites extends JPanel {
 
-
     Favourites(Stock[] favouriteStocks, Homepage home) {
         //insets
         int rows = (int) Math.ceil((favouriteStocks.length) / 2);
@@ -21,15 +20,6 @@ public class Favourites extends JPanel {
             FavouriteComponent favouriteComponent = new FavouriteComponent(favouriteStocks[i], home);
             this.add(favouriteComponent);
         }
-
-
-
-//        JFrame frame = new JFrame();
-//        frame.add(favScrollArea);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-
     }
 
 }

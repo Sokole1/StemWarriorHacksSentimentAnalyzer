@@ -109,12 +109,14 @@ public class FavouriteComponent extends JPanel {
         genSent.setFocusable(false);
 
         genSent.addActionListener(e -> {
+            Loading loading = new Loading();
             StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
             SentimentGetter sentimentGetter = new SymblSentimentGetter();
             NewsGetter googleNewsGetter = new GoogleNewsGetter();
             Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
             Stock newStock = handler.setUpRestOfStock(stock);
             System.out.println(newStock);
+            loading.frame.dispose();
             home.getRidOf();
             new StockPage(newStock);
         });
@@ -132,6 +134,7 @@ public class FavouriteComponent extends JPanel {
 
         remove.addActionListener(e -> {
             try {
+                remove.setEnabled(false);
                 FavouritesWriter favouritesWriter = new FavouritesWriter("data/favourites.json");
                 favouritesWriter.removeFromFavourites(tickerName);
             } catch (FileNotFoundException ex) {

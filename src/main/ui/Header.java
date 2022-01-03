@@ -65,7 +65,20 @@ public class Header extends JPanel {
         buttonSearch.setRolloverIcon(new ImageIcon("assets/searchHovered.png"));
         buttonSearch.setPreferredSize(new Dimension(50, 50));
         buttonSearch.addActionListener(e -> {
-            System.out.println("Welcome " + textField.getText());
+            StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
+            SentimentGetter sentimentGetter = new SymblSentimentGetter();
+            NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            buttonSearch.setEnabled(false);
+            buttonHome.setEnabled(false);
+            Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
+            Stock stock = handler.setUpStock(textField.getText());
+            if (stock == null) {
+                rootFrame.dispose();
+                new SearchPageError(textField.getText());
+            } else {
+                rootFrame.dispose();
+                new StockPage(stock);
+            }
         });
         buttonSearch.setBorder(BorderFactory.createEmptyBorder());
         buttonSearch.setContentAreaFilled(false);
@@ -78,6 +91,8 @@ public class Header extends JPanel {
             StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
             SentimentGetter sentimentGetter = new SymblSentimentGetter();
             NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            buttonSearch.setEnabled(false);
+            buttonHome.setEnabled(false);
             Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
             try {
                 new Homepage(handler.initializeFavouriteStocks());

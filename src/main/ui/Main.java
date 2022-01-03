@@ -12,6 +12,10 @@ public class Main {
         NewsGetter googleNewsGetter = new GoogleNewsGetter();
         Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
 
-        new Homepage(handler.initializeFavouriteStocks());
+//        new Homepage(handler.initializeFavouriteStocks());
+        Stock stock = new Stock("AA", "SDF", 1.2, 1.23);
+        Stock[] stocks = new Stock[]{stock, stock};
+        new Homepage(stocks);
+//        Loading loading = new Loading();
     }
 }

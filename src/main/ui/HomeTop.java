@@ -46,7 +46,7 @@ public class HomeTop extends JPanel {
 
     private void initializeContent() {
         title = new JLabel();
-        title.setText("Stock Sentiment Analyzer");
+        title.setText("Stock Stalk");
         title.setFont(new Font("Raleway", Font.BOLD, 24));
         title.setForeground(new Color(51,148,35));
         title.setBorder(new EmptyBorder(10, 50, 10, 10));
@@ -61,11 +61,14 @@ public class HomeTop extends JPanel {
         buttonSearch = new JButton(searchIcon);
 
         buttonSearch.addActionListener(e -> {
+            Loading loading = new Loading();
             StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
             SentimentGetter sentimentGetter = new SymblSentimentGetter();
             NewsGetter googleNewsGetter = new GoogleNewsGetter();
+            buttonSearch.setEnabled(false);
             Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
             Stock stock = handler.setUpStock(textField.getText());
+            loading.frame.dispose();
             if (stock == null) {
                 homepage.getRidOf();
                 new SearchPageError(textField.getText());

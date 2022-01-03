@@ -10,16 +10,20 @@ public class Homepage {
 
     HomeTop homeTop = new HomeTop(this);
     JFrame frame;
+    GridBagConstraints gbc;
+    JPanel home;
+    Favourites favourites;
+    JScrollPane favScrollArea;
 
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     final int WIDTH = (int) screenSize.getWidth();
     final int HEIGHT = (int) screenSize.getHeight();
 
     Homepage(Stock[] stocks) {
-        JPanel home = new JPanel();
+        home = new JPanel();
         home.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         home.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        gbc = new GridBagConstraints();
 
         gbc.fill = GridBagConstraints.BOTH;
         gbc.anchor = GridBagConstraints.NORTH;
@@ -28,10 +32,11 @@ public class Homepage {
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        Favourites favourites = new Favourites(stocks, this);
+        favourites = new Favourites(stocks, this);
 
-        JScrollPane favScrollArea = new JScrollPane(favourites);
+        favScrollArea = new JScrollPane(favourites);
         favScrollArea.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+        favScrollArea.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         favScrollArea.setFocusable(false);
 
         home.add(homeTop, gbc);
