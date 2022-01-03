@@ -5,7 +5,7 @@ Simply search for a stock ticker and allow Stock Stalk to provide you with its p
 
 You can also save your favourite stocks for easy access on the homepage!
 
-**(Requires Java 11 or greater)**
+_**(Requires Java 11 or greater)**_
 
 ## Inspiration
 Making money. Just kidding. 
