@@ -1,5 +1,5 @@
 {
-  "yahooApiKey": "YOUR API KEY HERE",
-  "symblApiKey": "Bearer YOUR API KEY HERE",
-  "googleApiKey": "YOUR API KEY HERE"
+  "yahooApiKey": "<YOUR API KEY HERE>",
+  "symblApiKey": "Bearer <YOUR API KEY HERE>",
+  "googleApiKey": "<YOUR API KEY HERE>"
 }
