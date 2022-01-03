@@ -55,19 +55,6 @@ public class FavouriteComponent extends JPanel {
         gbc.gridwidth = 2;
         this.add(genSentPanel, gbc);
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        //panel.setBorder(new EmptyBorder(20,20,20,20));
-
-//        JFrame frame = new JFrame();
-//
-//
-//        frame.add(panelFavCom);
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.pack();
-//        frame.setVisible(true);
-//        frame.setPreferredSize(new Dimension(WIDTH/2, WIDTH/2));
-
-
     }
 
     private void initialize(Stock stock) {
@@ -109,15 +96,13 @@ public class FavouriteComponent extends JPanel {
         genSent.setFocusable(false);
 
         genSent.addActionListener(e -> {
-            Loading loading = new Loading();
             StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
             SentimentGetter sentimentGetter = new SymblSentimentGetter();
             NewsGetter googleNewsGetter = new GoogleNewsGetter();
             Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
             Stock newStock = handler.setUpRestOfStock(stock);
             System.out.println(newStock);
-            loading.frame.dispose();
-            home.getRidOf();
+            home.dispose();
             new StockPage(newStock);
         });
 

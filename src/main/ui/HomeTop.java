@@ -61,19 +61,17 @@ public class HomeTop extends JPanel {
         buttonSearch = new JButton(searchIcon);
 
         buttonSearch.addActionListener(e -> {
-            Loading loading = new Loading();
             StockInfoGetter stockInfoGetter = new YahooStockInfoGetter();
             SentimentGetter sentimentGetter = new SymblSentimentGetter();
             NewsGetter googleNewsGetter = new GoogleNewsGetter();
             buttonSearch.setEnabled(false);
             Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
             Stock stock = handler.setUpStock(textField.getText());
-            loading.frame.dispose();
             if (stock == null) {
-                homepage.getRidOf();
+                homepage.dispose();
                 new SearchPageError(textField.getText());
             } else {
-                homepage.getRidOf();
+                homepage.dispose();
                 new StockPage(stock);
             }
         });
