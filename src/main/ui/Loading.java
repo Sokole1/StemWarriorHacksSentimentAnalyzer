@@ -30,8 +30,4 @@ public class Loading extends JPanel {
         this.setBackground(new Color(185, 185, 185)); // change colour of background
         this.setVisible(true); // make frame visible
     }
-
-
-
-
 }
