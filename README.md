@@ -5,6 +5,8 @@ Simply search for a stock ticker and allow Stock Stalk to provide you with its p
 
 You can also save your favourite stocks for easy access on the homepage!
 
+**(Requires Java 11 or greater)**
+
 ## Inspiration
 Making money. Just kidding. 
 
@@ -28,5 +30,5 @@ You will need to the API key's for the following:
 
 Then, copy and paste your API keys into the config.json file.
 
-After you finish, you are able to run the program. 
+After you finish, you are able to run the program. The Main file is in src/main/ui/Main.java
 
