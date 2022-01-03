@@ -8,7 +8,7 @@ You can also save your favourite stocks for easy access on the homepage!
 ## Inspiration
 Making money. Just kidding. 
 
-We thought using the Symbl api would be fun and using the sentiment analysis feature on stocks was the first good idea that came to mind.
+We thought using the Symbl API would be fun and using the sentiment analysis feature on stocks was the first good idea that came to mind.
 
 ## How it works
 The user enters a stock ticker which we use to get stock information using [Yahoo's Finance API](https://www.yahoofinanceapi.com/) and recent news articles using [News API](https://newsapi.org/s/google-news-api). 
