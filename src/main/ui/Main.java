@@ -11,6 +11,11 @@ public class Main {
         SentimentGetter sentimentGetter = new SymblSentimentGetter();
         NewsGetter googleNewsGetter = new GoogleNewsGetter();
         Handler handler = new Handler(stockInfoGetter, googleNewsGetter, sentimentGetter);
-        new Homepage(handler.initializeFavouriteStocks());
+//        new Homepage(handler.initializeFavouriteStocks());
+        new Homepage(dummyStocks());
+    }
+
+    public static Stock[] dummyStocks() {
+        return new Stock[]{new Stock("Apple", "AAPL", 120.12, 0.05)};
     }
 }

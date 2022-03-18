@@ -41,7 +41,7 @@ public class YahooStockInfoGetter implements StockInfoGetter {
             return null;
         }
         JSONObject stock = result.getJSONObject(0);
-
+        System.out.println(stock);
         Stock stockOb = new Stock(stock.getString("displayName"),
                 stock.getString("symbol"),
                 stock.getDouble("regularMarketPrice"),
