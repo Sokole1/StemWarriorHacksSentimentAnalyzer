@@ -1,6 +1,8 @@
 package main.model;
 
 import main.persistence.FavouritesWriter;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -13,9 +15,16 @@ public class Handler {
     private Stock[] favouriteStocks;
 
     public Handler(StockInfoGetter stockInfoGetter, NewsGetter newsGetter, SentimentGetter sentimentGetter) {
-        this.stockInfoGetter = stockInfoGetter;
-        this.newsGetter = newsGetter;
-        this.sentimentGetter = sentimentGetter;
+        this.stockInfoGetter = new StubStockInfoGetter(
+                new Stock("Apple", "AAPL", 120.12, 0.05));
+        JSONArray stubReport = new JSONArray("[{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
+                "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}," +
+                "{\"summary\":\"<SUMMARY>\",\"provider\":\"<PROVIDER>\",\"publishedOn\":\"<DATE>\",\"id\":\"<ID>\",\"title\":\"<TITLE>\"}]");
+        this.newsGetter = new StubNewsGetter(stubReport);
+        this.sentimentGetter = new StubSentimentGetter();
+//        this.stockInfoGetter = stockInfoGetter;
+//        this.newsGetter = newsGetter;
+//        this.sentimentGetter = sentimentGetter;
     }
 
     // MODIFIES: this
@@ -84,5 +93,66 @@ public class Handler {
         ans = Math.round(ans / stock.getSentiments().length * 100.0) / 100.0;
         stock.setAverageSentiment(ans);
         return ans;
+    }
+
+    private class StubStockInfoGetter implements StockInfoGetter {
+
+        private Stock stubStock;
+
+        public StubStockInfoGetter(Stock stubStock) {
+            this.stubStock = stubStock;
+        }
+
+        @Override
+        public Stock getStock(String ticker) {
+            return stubStock;
+        }
+    }
+
+    private class StubSentimentGetter implements SentimentGetter {
+
+        private Double[] stubReturns;
+
+        public StubSentimentGetter(Double[] stubReturn) {
+            this.stubReturns = stubReturn;
+        }
+
+        public StubSentimentGetter() {
+            this.stubReturns = new Double[]{0.0, 0.0, 0.0, 0.0};
+        }
+
+        @Override
+        public Double[] getSentiments(String[] articleBodies) {
+            return stubReturns;
+        }
+    }
+
+    private class StubNewsGetter implements NewsGetter {
+
+        private JSONArray stubReports;
+
+        public StubNewsGetter(JSONArray stubReports) {
+            this.stubReports = stubReports;
+        }
+
+        @Override
+        public Sentiment[] getNewsSentiment(String ticker) {
+            return getNewsTurnIntoSentiments("");
+        }
+
+        private Sentiment[] getNewsTurnIntoSentiments(String rawNews) {
+            final int MAX = 2;
+
+            Sentiment[] sentiments = stubReports.length() <= MAX ? new Sentiment[stubReports.length()] : new Sentiment[MAX];
+
+            for (int i = 0; i < stubReports.length() && i < MAX; ++i) {
+                JSONObject report = stubReports.getJSONObject(i);
+                String heading = report.getString("title");
+                String source = report.getString("summary");
+                sentiments[i] = new Sentiment(heading, source);
+            }
+            System.out.println(Arrays.toString(sentiments));
+            return sentiments;
+        }
     }
 }
